@@ -150,7 +150,7 @@ export default function App() {
       } else {
         const {data,error}=await supabase.from('budgets').upsert({user_id:session.user.id,category:budgetCat,month:`${month}-01`,limit_amount:n},{onConflict:'user_id,category,month'}).select('category,limit_amount').single();
         if(error) throw error;
-        setBudgets(prev=>({...prev,[data.category:Number(data.limit_amount)]}));
+        setBudgets(prev=>({...prev,[data.category]:Number(data.limit_amount)}));
       }
       setBudgetValue('');setShowBudgetForm(false);setNotice('Лимит сохранён.');
     } catch(err){setNotice(`Не удалось сохранить лимит: ${err.message}`);}
